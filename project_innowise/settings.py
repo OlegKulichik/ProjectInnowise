@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'likes.apps.LikesConfig',
     'django.contrib.staticfiles',
+    'likes.apps.LikesConfig',
+    'match.apps.MatchConfig',
     'profiles.apps.ProfilesConfig',
     'api.apps.ApiConfig',
     'rest_framework',
@@ -92,6 +93,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -140,3 +142,4 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication"
     ],
 }
+

@@ -1,7 +1,8 @@
 # First-party
 from .models import Like
 
-# Django
+
+#Django
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 
@@ -44,3 +45,12 @@ def get_fans(obj):
     obj_type = ContentType.objects.get_for_model(obj)
     return User.objects.filter(
         likes__content_type=obj_type, likes__object_id=obj.id)
+
+# def is_voted(obj, user) -> bool:
+#     if not user.is_authenticated:
+#         return False
+#     content_type = ContentType.objects.get_for_model(obj)
+#     likes = LikeDislike.objects.filter(
+#         content_type=content_type, object_id=obj.id, user=user
+#     )
+#     return likes.exists()

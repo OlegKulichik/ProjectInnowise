@@ -1,7 +1,10 @@
 # First-party
-from profiles.models import UserProfile
+from match.models import Match
+from profiles.models import Profile
+from likes import services as likes_services
 # Django
 from django.contrib.auth import get_user_model
+from django.contrib.gis.geos import fromstr
 
 # Third-party
 from rest_framework import serializers
@@ -12,22 +15,54 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    
+
     url = serializers.HyperlinkedIdentityField(view_name="api:user-detail")
 
     class Meta:
         model = User
         fields = ("id", "url", "username", "is_superuser")
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     
     is_fan = serializers.SerializerMethodField()
-    user = serializers.StringRelatedField(read_only=True)
+    all_match = serializers.HyperlinkedIdentityField(
+        view_name="api:match-detail", many=True
+    )
 
     class Meta:
-        model = UserProfile
-        fields = ("id","user","description", "image", "is_fan", "total_likes")
+        model = Profile
+        fields = ("id","user","description", "image", "is_fan", "total_likes", "all_match")
+    
+    def get_is_fan(self, obj) -> bool:
+        user = self.context.get('request').user
+        return likes_services.is_fan(obj, user)
 
+
+class MatchSerializer(serializers.HyperlinkedModelSerializer):
+    
+    is_fan = serializers.SerializerMethodField()
+
+    content_object = GenericRelatedField(
+        {
+            Profile: serializers.HyperlinkedRelatedField(
+                queryset=Profile.objects.all(), view_name="profile-detail"
+            ),
+            Match: serializers.HyperlinkedRelatedField(
+                queryset=Match.objects.all(), view_name="match-detail"
+            ),
+        }
+    )
+
+    class Meta:
+        model = Match
+        fields = (
+            "id",
+            "user",
+            "content_object",
+            "text",
+            "is_fan",
+        )
+    
     def get_is_fan(self, obj) -> bool:
         user = self.context.get('request').user
         return likes_services.is_fan(obj, user)

@@ -1,3 +1,8 @@
+# First-party
+from .models import Like
+
+# Django
 from django.contrib import admin
 
-# Register your models here.
+
+admin.site.register(Like)

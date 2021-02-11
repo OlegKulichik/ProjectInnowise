@@ -1,5 +1,5 @@
 # First-party
-from .views import UserViewSet, UserProfileViewSet
+from .views import UserViewSet, ProfilesViewSet, MatchViewSet
 
 # Django
 from django.urls import include, path
@@ -11,8 +11,9 @@ from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
-router.register(r"profiles", UserProfileViewSet)
-# router.register(r"profiles", TopicViewSet)
+router.register(r"profiles", ProfilesViewSet)
+router.register(r"matchs", MatchViewSet)
+
 
 
 urlpatterns = [

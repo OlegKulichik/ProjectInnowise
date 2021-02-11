@@ -1,6 +1,7 @@
 # First-party
-from profiles.models import UserProfile
-from .serializers import UserSerializer, UserProfileSerializer
+from profiles.models import Profile
+from match.models import Match
+from .serializers import UserSerializer, ProfileSerializer, MatchSerializer
 from api.mixins import LikedMixin
 
 # Django
@@ -10,7 +11,8 @@ from django.contrib.auth import get_user_model
 # Third-party
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django_filters import rest_framework as filters
+
+
 
 
 User = get_user_model()
@@ -23,8 +25,15 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-class UserProfileViewSet(LikedMixin, viewsets.ModelViewSet):
+class ProfilesViewSet(LikedMixin, viewsets.ModelViewSet):
     
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class MatchViewSet(viewsets.ModelViewSet):
+    
+    queryset = Match.objects.all()
+    serializer_class = MatchSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
