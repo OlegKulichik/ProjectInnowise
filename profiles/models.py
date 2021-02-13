@@ -37,7 +37,7 @@ class Profile(models.Model):
     def all_match(self):
         return self.match.all()
 
-    def save(self, *args, **kwargs):
+    def save(self,* args, **kwargs):
         
         if self.subscription == 'Basic':
             self.swipe = 20

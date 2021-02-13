@@ -34,7 +34,7 @@ class LikedMixin:
         Get person that liked
         """
         obj = self.get_object()
-        voted_persons = services.get_voted_persons(obj)
+        voted_persons = services.get_fans(obj)
         serializer_context = {"request": request}
         serializer = UserSerializer(
             voted_persons, many=True, context=serializer_context
