@@ -7,6 +7,7 @@ from match import services
 from .serializers import UserSerializer
 
 
+
 class LikedMixin:
        
     @action(detail=True, methods=['POST'])
@@ -38,7 +39,7 @@ class LikedMixin:
         serializer = UserSerializer(
             voted_persons, many=True, context=serializer_context
         )
-
+        
         return Response(serializer.data)
 
 
@@ -47,7 +48,7 @@ class MatchMixin:
     @action(detail=True, methods=["GET"])
     def voted_persons(self, request, pk=None):
         """
-        Get person that match
+        Get person that match 'obj'
         """
         obj = self.get_object()
         voted_persons = services.get_voted_persons(obj)
@@ -57,3 +58,4 @@ class MatchMixin:
         )
 
         return Response(serializer.data)
+

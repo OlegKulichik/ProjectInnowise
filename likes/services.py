@@ -1,7 +1,5 @@
-# First-party
 from .models import Like
 
-#Django
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 

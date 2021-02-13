@@ -1,19 +1,17 @@
-# First-party
 from .views import UserViewSet, ProfilesViewSet, MatchViewSet
 
-# Django
 from django.urls import include, path
 
-# Third-party
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
+
+
 
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"profiles", ProfilesViewSet)
 router.register(r"matchs", MatchViewSet)
-
 
 
 urlpatterns = [
@@ -24,5 +22,4 @@ urlpatterns = [
     path(
         "api/token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
     ),
-    # path('api-auth/', include('rest_framework.urls')),
 ]

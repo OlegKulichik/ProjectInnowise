@@ -1,9 +1,10 @@
-# First-party
 from likes.models import Like
 from match.models import Match
-#Django
+
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 
 
 
@@ -18,7 +19,6 @@ class Profile(models.Model):
     ('Vip', 'Vip'),
     ('Premium', 'Premium'),
 )
-
     user = models.ForeignKey("auth.User",on_delete=models.CASCADE,related_name="profile")
     description = models.TextField(blank=True,null=True)
     image = models.ImageField(upload_to=nameFile,blank=True,null=True)
@@ -27,7 +27,7 @@ class Profile(models.Model):
     subscription = models.CharField(max_length=14,choices=SUB,default='Basic')
     radius = models.PositiveIntegerField(default=25)
     swipe = models.PositiveIntegerField(blank=True,null=True)
-
+    point = models.PointField(blank=True, null=True)
 
     @property
     def total_likes(self):

@@ -1,13 +1,11 @@
-# First-party
 from match.models import Match
 from profiles.models import Profile
 from likes import services as likes_services
 from match import services as match_services
-# Django
+
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import fromstr
 
-# Third-party
 from rest_framework import serializers
 from generic_relations.relations import GenericRelatedField
 
@@ -16,7 +14,6 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-
     url = serializers.HyperlinkedIdentityField(view_name="api:user-detail")
 
     class Meta:
@@ -28,8 +25,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "is_superuser"
         )
 
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    
     is_fan = serializers.SerializerMethodField()
     all_match = serializers.HyperlinkedIdentityField(
         view_name="api:match-detail", many=True
@@ -48,16 +45,16 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             "swipe",
             "radius",
             "all_match",
+            "point",
         )
     
     def get_is_fan(self, obj) -> bool:
         user = self.context.get('request').user
         return likes_services.is_fan(obj, user)
 
-class MatchSerializer(serializers.HyperlinkedModelSerializer):
-    
-    is_vote = serializers.SerializerMethodField()
 
+class MatchSerializer(serializers.HyperlinkedModelSerializer):
+    is_vote = serializers.SerializerMethodField()
     content_object = GenericRelatedField(
         {
             Profile: serializers.HyperlinkedRelatedField(
