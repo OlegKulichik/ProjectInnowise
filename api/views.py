@@ -2,7 +2,7 @@
 from profiles.models import Profile
 from match.models import Match
 from .serializers import UserSerializer, ProfileSerializer, MatchSerializer
-from api.mixins import LikedMixin
+from api.mixins import LikedMixin, MatchMixin
 
 # Django
 from django.shortcuts import render
@@ -25,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-class ProfilesViewSet(LikedMixin, viewsets.ModelViewSet):
+class ProfilesViewSet(MatchMixin,LikedMixin, viewsets.ModelViewSet):
     
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer

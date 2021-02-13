@@ -2,6 +2,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from likes import services
+from match import services
 
 from .serializers import UserSerializer
 
@@ -24,11 +25,18 @@ class LikedMixin:
         services.remove_like(obj, request.user)
         return Response()
 
-    @action(detail=True, methods=['GET'])
-    def fans(self, request, pk=None):
-        """Get the users which liked a model instance.
-        """
+
+class MatchMixin:
+
+    @action(detail=True, methods=["GET"])
+    def voted_persons(self, request, pk=None):
+        """Get person that liked `obj`."""
+
         obj = self.get_object()
-        fans = services.get_fans(obj)
-        serializer = UserSerializer(fans, many=True)
+        voted_persons = services.get_voted_persons(obj)
+        serializer_context = {"request": request}
+        serializer = UserSerializer(
+            voted_persons, many=True, context=serializer_context
+        )
+
         return Response(serializer.data)

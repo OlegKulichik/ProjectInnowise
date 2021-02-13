@@ -2,6 +2,7 @@
 from match.models import Match
 from profiles.models import Profile
 from likes import services as likes_services
+from match import services as match_services
 # Django
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import fromstr
@@ -31,16 +32,15 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("id","user","description", "image", "is_fan", "total_likes", "all_match")
+        fields = ("id","user","description", "image", "is_fan", "total_likes", "subscription", "all_match")
     
     def get_is_fan(self, obj) -> bool:
         user = self.context.get('request').user
         return likes_services.is_fan(obj, user)
 
-
 class MatchSerializer(serializers.HyperlinkedModelSerializer):
     
-    is_fan = serializers.SerializerMethodField()
+    is_vote = serializers.SerializerMethodField()
 
     content_object = GenericRelatedField(
         {
@@ -59,10 +59,9 @@ class MatchSerializer(serializers.HyperlinkedModelSerializer):
             "id",
             "user",
             "content_object",
-            "text",
-            "is_fan",
+            "is_vote",
         )
     
-    def get_is_fan(self, obj) -> bool:
+    def get_is_vote(self, obj) -> bool:
         user = self.context.get('request').user
-        return likes_services.is_fan(obj, user)
+        return match_services.is_vote(obj, user)
