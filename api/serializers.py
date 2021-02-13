@@ -32,7 +32,17 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("id","user","description", "image", "is_fan", "total_likes", "subscription", "all_match")
+        fields = (
+            "id",
+            "user",
+            "description", 
+            "image", "is_fan", 
+            "total_likes", 
+            "subscription", 
+            "swipe",
+            "radius",
+            "all_match",
+        )
     
     def get_is_fan(self, obj) -> bool:
         user = self.context.get('request').user

@@ -7,23 +7,26 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 
 
+
 def nameFile(instance, filename):
     return '/'.join(['images', filename])
 
 class Profile(models.Model):
     
     SUB = (
-    ("25swipe - 10km", 'Basic'),
-    ("100 Swipe-25km", 'Vip'),
-    ("no limit", 'Premium'),
+    ('Basic', 'Basic'),
+    ('Vip', 'Vip'),
+    ('Premium', 'Premium'),
 )
 
-    subscription = models.CharField(max_length=14,choices=SUB, default='Basic')
-    user = models.ForeignKey("auth.User", on_delete=models.CASCADE, related_name="profile")
-    description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to=nameFile, blank=True, null=True)
+    user = models.ForeignKey("auth.User",on_delete=models.CASCADE,related_name="profile")
+    description = models.TextField(blank=True,null=True)
+    image = models.ImageField(upload_to=nameFile,blank=True,null=True)
     likes = GenericRelation(Like)
     match = GenericRelation(Match)
+    subscription = models.CharField(max_length=14,choices=SUB,default='Basic')
+    radius = models.PositiveIntegerField(default=25)
+    swipe = models.PositiveIntegerField(blank=True,null=True)
 
 
     @property
@@ -33,3 +36,17 @@ class Profile(models.Model):
     @property
     def all_match(self):
         return self.match.all()
+
+    def save(self, *args, **kwargs):
+        
+        if self.subscription == 'Basic':
+            self.swipe = 20
+            self.radius = 10
+        elif self.subscription == 'Vip':
+            self.swipe = 100
+            self.radius = 25
+        elif self.subscription == 'Premium':
+            self.swipe = None
+            self.radius = self.radius
+
+        super(Profile, self).save(*args, **kwargs)
