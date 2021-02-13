@@ -9,7 +9,6 @@ from django.contrib.contenttypes.models import ContentType
 User = get_user_model()
 
 def is_vote(obj, user) -> bool:
-
     if not user.is_authenticated:
         return False
     obj_type = ContentType.objects.get_for_model(obj)

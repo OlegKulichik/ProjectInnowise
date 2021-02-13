@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'generic_relations',
     'django_filters',
+    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'project_innowise.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'social_network',
         'HOST': 'localhost',
         'PORT': '5432',

@@ -10,7 +10,8 @@ User = get_user_model()
 
 
 def add_like(obj, user):
-    """Add a like to an `obj`.
+    """
+    Add a like.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     like, is_created = Like.objects.get_or_create(
@@ -19,7 +20,8 @@ def add_like(obj, user):
 
 
 def remove_like(obj, user):
-    """Remove a like from an `obj`.
+    """
+    Remove a like.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     Like.objects.filter(
@@ -28,7 +30,8 @@ def remove_like(obj, user):
 
 
 def is_fan(obj, user) -> bool:
-    """Check whether a user liked an `obj` or not.
+    """
+    Check whether a user liked or not.
     """
     if not user.is_authenticated:
         return False
@@ -39,7 +42,8 @@ def is_fan(obj, user) -> bool:
 
 
 def get_fans(obj):
-    """Get the users which liked an `obj`.
+    """
+    Get the users which liked.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     return User.objects.filter(
