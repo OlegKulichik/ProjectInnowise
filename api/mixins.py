@@ -58,4 +58,3 @@ class MatchMixin:
         )
 
         return Response(serializer.data)
-

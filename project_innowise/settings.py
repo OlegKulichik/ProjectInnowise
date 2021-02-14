@@ -38,14 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    'django.contrib.gis',
     'likes.apps.LikesConfig',
     'match.apps.MatchConfig',
     'profiles.apps.ProfilesConfig',
     'api.apps.ApiConfig',
     'rest_framework',
     'generic_relations',
-    'django_filters',
-    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [

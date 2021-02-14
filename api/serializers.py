@@ -44,8 +44,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             "subscription", 
             "swipe",
             "radius",
-            "all_match",
             "point",
+            "all_match",
         )
     
     def get_is_fan(self, obj) -> bool:
